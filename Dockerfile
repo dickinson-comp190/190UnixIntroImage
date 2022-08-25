@@ -1,5 +1,4 @@
-# FROM debian:buster
-FROM cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
+FROM cypress/base:16.14.2-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
@@ -11,7 +10,8 @@ RUN apt update \
         gnupg2 \
         atfs \
         libsecret-1-0 \
-        wget
+        wget \
+        nano
 
 # Install the desktop environment.
 # Note: Power management does not work inside docker so it is removed.
@@ -81,7 +81,8 @@ RUN chmod +x .comp190/startup.bash
 
 # Stuff to reduce image size.
 USER root
-RUN apt autoclean -y \
+RUN apt clean -y \
+ && apt autoclean -y \
  && apt autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 USER $USERNAME
