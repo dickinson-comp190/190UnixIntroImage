@@ -13,7 +13,12 @@ Dockerfile for creating the Docker image used for Introduction to Unix unit.
 ## Getting the Container
 
 - `docker pull braughtg/190-unix-intro:f22`
-- `docker create --name comp190 -p 5901:5901 -p 6901:6901 braughtg/190-unix-intro:f22`
+
+For Mac:
+- `docker create --name comp190 --publish 5901:5901 --publish 6901:6901 --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock braughtg/190-unix-intro:f22`
+
+For Windows:
+- `docker create --name comp190 --publish 5901:5901 --publish 6901:6901 --mount type=bind,source=//var/run/docker.sock,target=/var/run/docker.sock braughtg/190-unix-intro:f22`
 
 ## Starting/Restarting the Container
 

@@ -1,17 +1,42 @@
-FROM cypress/base:16.14.2-slim
+FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
+# Not sure how much of this is necessary.
+#
+# It is from the cypress/base:16.14.2-slim Dockerfile.
+#  https://github.com/cypress-io/cypress-docker-images/blob/master/base/16.14.2-slim/Dockerfile
+#
+# Including it here allows this to be build from the base
+# debian:bullseye-slim image.
+RUN apt-get update && \
+  apt-get install --no-install-recommends -y \
+  libgtk2.0-0 \
+  libgtk-3-0 \
+  libnotify-dev \
+  libgconf-2-4 \
+  libgbm-dev \
+  libnss3 \
+  libxss1 \
+  libasound2 \
+  libxtst6 \
+  procps \
+  xauth \
+  xvfb \
+  vim-tiny \
+  nano \
+  fonts-noto-color-emoji
+
+## Here down is custom stuff for this image.
+
 # Install some base dependencies
-RUN apt update \
- && apt install -y --no-install-recommends \
+RUN apt install -y --no-install-recommends \
         software-properties-common \
         gnupg2 \
         atfs \
         libsecret-1-0 \
-        wget \
-        nano
+        wget
 
 # Install the desktop environment.
 # Note: Power management does not work inside docker so it is removed.
