@@ -1,15 +1,15 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 # Not sure how much of this is necessary.
 #
-# It is from the cypress/base:16.14.2-slim Dockerfile.
-#  https://github.com/cypress-io/cypress-docker-images/blob/master/base/16.14.2-slim/Dockerfile
+# It is from the cypress/base:16.14.2 Dockerfile.
+#  https://github.com/cypress-io/cypress-docker-images/blob/master/base/16.14.2/Dockerfile
 #
-# Including it here allows this to be build from the base
-# debian:bullseye-slim image.
+# Including it here allows this to be build from the debian:bullseye image.
+# Maybe able to pare it down some.
 RUN apt-get update && \
   apt-get install --no-install-recommends -y \
   libgtk2.0-0 \
@@ -36,7 +36,9 @@ RUN apt install -y --no-install-recommends \
         gnupg2 \
         atfs \
         libsecret-1-0 \
-        wget
+        wget \
+        man \
+        synaptic
 
 # Install the desktop environment.
 # Note: Power management does not work inside docker so it is removed.
@@ -64,10 +66,6 @@ RUN apt install -y --no-install-recommends \
  COPY firefox.bash .
  RUN ./firefox.bash \
   && rm firefox.bash
-
-# Clean up the xfce Applications menu because browser links don't work.
-# Would be nice to make these work instead...
-#RUN rm -f /usr/share/applications/firefox.desktop
 
 # Create the non-root user "comp190" with sudo privileges in the container.
 ARG USERNAME=comp190
@@ -102,7 +100,10 @@ USER $USERNAME
 # Add some scripts for the running container.
 RUN mkdir .comp190
 COPY --chown=$USERNAME:$USERNAME ./startup.bash ./.comp190/startup.bash
-RUN chmod +x .comp190/startup.bash
+COPY --chown=$USERNAME:$USERNAME ./xhost.desktop ./.config/autostart/xhost.desktop
+COPY --chown=$USERNAME:$USERNAME ./xhost.bash ./.comp190/xhost.bash
+RUN chmod +x .comp190/startup.bash \
+ && chmod +x .comp190/xhost.bash
 
 # Stuff to reduce image size.
 USER root

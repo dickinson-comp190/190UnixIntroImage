@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=XhostRootConfig
+Type=Application
+Exec=/home/comp190/.comp190/xhost.bash
+Terminal=false
+StartupNotify=false
+Hidden=false
+OnlyShowIn=XFCE;
+RunHook=0
