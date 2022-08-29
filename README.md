@@ -7,7 +7,7 @@ Builds an image for both amd64 and arm64, creates a multi-aarchitecture manifest
 
 - `docker login`
 - `docker buildx create --name comp190builder --use`
-- `docker buildx build --platform linux/amd64,linux/arm64 -t braughtg/90-unix-intro:f22 --push .`
+- `docker buildx build --platform linux/amd64,linux/arm64 -t braughtg/190-unix-intro:f22 --push .`
 
 ## Getting the Image
 
