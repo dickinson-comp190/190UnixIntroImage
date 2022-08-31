@@ -38,7 +38,8 @@ RUN apt install -y --no-install-recommends \
         libsecret-1-0 \
         wget \
         man \
-        synaptic
+        synaptic \
+        firefox-esr
 
 # Install the desktop environment.
 # Note: Power management does not work inside docker so it is removed.
@@ -63,9 +64,9 @@ RUN apt install -y --no-install-recommends \
         sudo
 
 # Install Firefox
- COPY firefox.bash .
- RUN ./firefox.bash \
-  && rm firefox.bash
+# COPY firefox.bash .
+# RUN ./firefox.bash \
+#  && rm firefox.bash
 
 # Create the non-root user "comp190" with sudo privileges in the container.
 ARG USERNAME=comp190
